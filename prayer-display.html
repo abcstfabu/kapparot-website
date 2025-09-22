@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapparot Prayer - Kapparot Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Kapparot Prayer</h1>
+            <p class="subtitle">Perform the Kapparot ritual with your donation</p>
+        </header>
+
+        <main class="main-content">
+            <div class="donation-summary">
+                <div class="summary-card">
+                    <p><strong>Performing Kapparot for:</strong> <span id="performingFor"></span></p>
+                    <p><strong>Name:</strong> <span id="personName"></span></p>
+                    <p><strong>Donation Amount:</strong> $<span id="finalAmount"></span></p>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h2>How to Perform Kapparot</h2>
+                <ol>
+                    <li>Take some coins or bills (representing your donation) in your hand</li>
+                    <li>Circle the money over your head (or the person's head) three times</li>
+                    <li>Recite the prayer below during each circle</li>
+                    <li>After completing the prayer, your donation will be processed and given to charity</li>
+                </ol>
+            </div>
+
+            <div class="prayer-section">
+                <h2>Kapparot Prayer</h2>
+                
+                <div class="prayer-card">
+                    <div class="hebrew-prayer">
+                        <h3>Hebrew</h3>
+                        <div class="hebrew-text" id="hebrewPrayer">
+                            <!-- Prayer will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="transliteration">
+                        <h3>Transliteration</h3>
+                        <div class="transliteration-text" id="transliterationPrayer">
+                            <!-- Transliteration will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="english-prayer">
+                        <h3>English Translation</h3>
+                        <div class="english-text" id="englishPrayer">
+                            <!-- English translation will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ritual-completion">
+                <h2>Complete Your Kapparot</h2>
+                <p>After reciting the prayer three times while circling the money over your head, click the button below to process your charitable donation and complete the ritual.</p>
+                
+                <div class="completion-actions">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="prayerCompleted">
+                        <span class="checkmark"></span>
+                        I have completed reciting the prayer three times
+                    </label>
+                    
+                    <button id="completeDonation" class="submit-btn" disabled>Complete Kapparot & Process Donation</button>
+                </div>
+            </div>
+
+            <div class="additional-info">
+                <h3>About Your Donation</h3>
+                <p>Your donation fulfills the modern interpretation of Kapparot, where monetary charity replaces the traditional animal offering. The funds will be distributed to help those in need, embodying the true spirit of tzedakah (charitable giving) that is central to this ritual.</p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Kapparot Online. May your prayers be answered and your giving bring blessing.</p>
+        </footer>
+    </div>
+
+    <script src="prayer-display.js"></script>
+</body>
+</html>
