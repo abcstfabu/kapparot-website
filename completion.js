@@ -127,7 +127,7 @@ G'mar Chatimah Tovah
 May you be sealed for good in the Book of Life
 
 =====================================
-© 2024 Kapparot Online
+© 2025 Kapparot Online
 This receipt serves as confirmation of your charitable donation.
         `.trim();
     }
