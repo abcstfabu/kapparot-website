@@ -201,6 +201,106 @@ body {
     font-size: 0.95rem;
 }
 
+/* Payment Options Styles */
+.payment-options {
+    padding: 40px;
+}
+
+.payment-options h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #1f2937;
+    text-align: center;
+}
+
+.payment-description {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+}
+
+.payment-group {
+    margin-bottom: 40px;
+}
+
+.payment-group h3 {
+    font-size: 1.3rem;
+    color: #374151;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.payment-method {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.payment-method:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+}
+
+.method-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.method-header h4 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 1.2rem;
+}
+
+.method-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.payment-method p {
+    margin: 0;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+
+.contact-info {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.contact-info h3 {
+    margin: 0 0 10px 0;
+    color: #92400e;
+    font-size: 1.1rem;
+}
+
+.contact-info p {
+    margin: 0;
+    color: #92400e;
+}
+
+/* Embedded payment functionality removed - using direct redirects only */
+
+/* Responsive adjustments removed with embedded payment forms */
+
 /* Prayer Selection Styles */
 .donation-summary {
     padding: 30px 40px;
@@ -340,52 +440,84 @@ body {
     color: #1f2937;
 }
 
+/* Prayer Toggle Buttons */
+.prayer-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    gap: 5px;
+    background: #e5e7eb;
+    padding: 5px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #374151;
+}
+
+.toggle-btn.active {
+    background: white;
+    color: #1f2937;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .prayer-card {
     background: #f8f9ff;
     border-radius: 12px;
-    overflow: hidden;
     border: 1px solid #e5e7eb;
+    min-height: 200px;
+    position: relative;
 }
 
-.hebrew-prayer,
-.transliteration,
-.english-prayer {
-    padding: 30px;
-    border-bottom: 1px solid #e5e7eb;
+.prayer-content {
+    padding: 40px;
+    animation: fadeIn 0.3s ease-in;
 }
 
-.english-prayer {
-    border-bottom: none;
-}
-
-.hebrew-prayer h3,
-.transliteration h3,
-.english-prayer h3 {
-    margin-bottom: 20px;
-    color: #1f2937;
-    font-size: 1.2rem;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hebrew-text {
     font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-    font-size: 1.4rem;
-    line-height: 1.8;
+    font-size: 1.6rem;
+    line-height: 2;
     text-align: right;
     direction: rtl;
     color: #1f2937;
 }
 
 .transliteration-text {
-    font-size: 1.2rem;
-    line-height: 1.8;
+    font-size: 1.3rem;
+    line-height: 1.9;
     font-style: italic;
     color: #374151;
+    text-align: center;
 }
 
 .english-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 1.2rem;
+    line-height: 1.9;
     color: #374151;
+    text-align: center;
 }
 
 /* Ritual Completion */
@@ -639,5 +771,32 @@ body {
         margin-bottom: 15px;
         margin-right: 0;
         width: 100%;
+    }
+    
+    /* Mobile prayer toggle adjustments */
+    .prayer-toggle {
+        flex-direction: row;
+        max-width: none;
+        margin: 0 0 20px 0;
+    }
+    
+    .toggle-btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .hebrew-text {
+        font-size: 1.4rem;
+        line-height: 1.8;
+    }
+    
+    .transliteration-text {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    
+    .english-text {
+        font-size: 1rem;
+        line-height: 1.7;
     }
 }

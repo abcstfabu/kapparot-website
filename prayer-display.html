@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kapparot Prayer - Kapparot Online</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
@@ -19,7 +25,6 @@
             <div class="donation-summary">
                 <div class="summary-card">
                     <p><strong>Performing Kapparot for:</strong> <span id="performingFor"></span></p>
-                    <p><strong>Name:</strong> <span id="personName"></span></p>
                     <p><strong>Donation Amount:</strong> $<span id="finalAmount"></span></p>
                 </div>
             </div>
@@ -27,9 +32,9 @@
             <div class="instructions">
                 <h2>How to Perform Kapparot</h2>
                 <ol>
-                    <li>Take your phone in your hand</li>
-                    <li>Circle your phone over your head (or the person's head) three times</li>
-                    <li>Recite the prayer below after circling</li>
+                    <li>Take some coins or bills (representing your donation) in your hand</li>
+                    <li>Circle the money over your head three times</li>
+                    <li>Recite the prayer below during each circle (use the toggle buttons to choose your preferred language)</li>
                     <li>After completing the prayer, your donation will be processed and given to charity</li>
                 </ol>
             </div>
@@ -37,23 +42,30 @@
             <div class="prayer-section">
                 <h2>Kapparot Prayer</h2>
                 
+                <!-- Prayer Language Toggle -->
+                <div class="prayer-toggle">
+                    <button class="toggle-btn active" data-prayer="hebrew">עברית (Hebrew)</button>
+                    <button class="toggle-btn" data-prayer="transliteration">Transliteration</button>
+                    <button class="toggle-btn" data-prayer="english">English</button>
+                </div>
+                
                 <div class="prayer-card">
-                    <div class="hebrew-prayer">
-                        <h3>Hebrew</h3>
+                    <!-- Hebrew Prayer (default visible) -->
+                    <div class="prayer-content hebrew-prayer" id="hebrew-content">
                         <div class="hebrew-text" id="hebrewPrayer">
                             <!-- Prayer will be inserted here by JavaScript -->
                         </div>
                     </div>
 
-                    <div class="transliteration">
-                        <h3>Transliteration</h3>
+                    <!-- Transliteration (hidden by default) -->
+                    <div class="prayer-content transliteration" id="transliteration-content" style="display: none;">
                         <div class="transliteration-text" id="transliterationPrayer">
                             <!-- Transliteration will be inserted here by JavaScript -->
                         </div>
                     </div>
 
-                    <div class="english-prayer">
-                        <h3>English Translation</h3>
+                    <!-- English Translation (hidden by default) -->
+                    <div class="prayer-content english-prayer" id="english-content" style="display: none;">
                         <div class="english-text" id="englishPrayer">
                             <!-- English translation will be inserted here by JavaScript -->
                         </div>
@@ -72,7 +84,7 @@
                         I have completed reciting the prayer three times
                     </label>
                     
-                    <button id="completeDonation" class="submit-btn" disabled>Complete Kapparot & Process Donation</button>
+                    <button id="completeDonation" class="submit-btn" disabled>Complete Kapparot</button>
                 </div>
             </div>
 
@@ -87,6 +99,7 @@
         </footer>
     </div>
 
+    <script src="sheets-config.js"></script>
     <script src="prayer-display.js"></script>
 </body>
 </html>

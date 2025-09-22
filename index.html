@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kapparot Online - Digital Tzedakah for Atonement</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -20,9 +26,65 @@
                 <p>Kapparot is a Jewish ritual performed before Yom Kippur where we symbolically transfer our sins through charitable giving. Your donation will go directly to help those in need, fulfilling the mitzvah of tzedakah while performing this meaningful tradition.</p>
             </div>
 
+            <div class="prayer-selection">
+                <h2>Who is performing Kapparot?</h2>
+                <p class="instruction">Please select the appropriate prayer based on who is performing the ritual:</p>
+                
+                <div class="prayer-options">
+                    <div class="prayer-option" data-type="male">
+                        <div class="option-header">
+                            <h3>👨 For a Male</h3>
+                            <p>Select this if a male is performing Kapparot for himself</p>
+                        </div>
+                    </div>
+
+                    <div class="prayer-option" data-type="female">
+                        <div class="option-header">
+                            <h3>👩 For a Female</h3>
+                            <p>Select this if a female is performing Kapparot for herself</p>
+                        </div>
+                    </div>
+
+                    <div class="prayer-option" data-type="male-child">
+                        <div class="option-header">
+                            <h3>👦 For a Male Child</h3>
+                            <p>Select this if performing Kapparot for a young boy</p>
+                        </div>
+                    </div>
+
+                    <div class="prayer-option" data-type="female-child">
+                        <div class="option-header">
+                            <h3>👧 For a Female Child</h3>
+                            <p>Select this if performing Kapparot for a young girl</p>
+                        </div>
+                    </div>
+
+                    <div class="prayer-option" data-type="family">
+                        <div class="option-header">
+                            <h3>👨‍👩‍👧‍👦 For the Entire Family</h3>
+                            <p>Select this for a general family Kapparot (includes all variations)</p>
+                        </div>
+                    </div>
+
+                    <div class="prayer-option" data-type="pregnant">
+                        <div class="option-header">
+                            <h3>🤱 For a Pregnant Woman</h3>
+                            <p>Special prayer for expectant mothers (includes prayers for both mother and unborn child)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="donation-form">
-                <h2>Make Your Kapparot Donation</h2>
+                <h2>Select Your Donation Amount</h2>
                 <form id="donationForm">
+                    <div class="form-group">
+                        <label for="donorEmail">Your Email Address</label>
+                        <input type="email" id="donorEmail" name="donorEmail" placeholder="your-email@example.com" required>
+                        <small style="color: #6b7280; font-size: 0.9rem;">We'll send you a receipt and save your donation record</small>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="amount">Donation Amount ($)</label>
                         <div class="amount-buttons">
@@ -34,91 +96,20 @@
                         <input type="number" id="amount" name="amount" min="1" step="1" placeholder="Enter custom amount" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="cardNumber">Card Number</label>
-                            <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv">CVV</label>
-                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expMonth">Expiry Month</label>
-                            <select id="expMonth" name="expMonth" required>
-                                <option value="">MM</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="expYear">Expiry Year</label>
-                            <select id="expYear" name="expYear" required>
-                                <option value="">YYYY</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                                <option value="2029">2029</option>
-                                <option value="2030">2030</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="billingAddress">Billing Address</label>
-                        <input type="text" id="billingAddress" name="billingAddress" required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="city">City</label>
-                            <input type="text" id="city" name="city" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="zipCode">Zip Code</label>
-                            <input type="text" id="zipCode" name="zipCode" required>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn">Continue to Prayer Selection</button>
+                    <button type="submit" class="submit-btn" id="proceedBtn" disabled>Continue to Payment</button>
                 </form>
-
-                <div class="security-info">
-                    <p><strong>🔒 Secure Transaction:</strong> Your payment information is encrypted and secure. This donation helps fulfill the mitzvah of tzedakah as part of your Kapparot observance.</p>
-                </div>
             </div>
         </main>
 
         <footer class="footer">
             <p>&copy; 2025 Kapparot Online. Helping fulfill the tradition of tzedakah during the High Holy Days.</p>
+            <p>
+                <a href="privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: underline;">Privacy Policy</a>
+            </p>
         </footer>
     </div>
 
+    <script src="sheets-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

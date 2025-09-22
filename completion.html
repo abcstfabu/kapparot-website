@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kapparot Complete - Thank You</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -11,7 +17,7 @@
     <div class="container">
         <header class="header">
             <h1>Kapparot Complete</h1>
-            <p class="subtitle">Thank you for fulfilling this meaningful tradition</p>
+            <p class="subtitle">Thank you</p>
         </header>
 
         <main class="main-content">
@@ -23,20 +29,20 @@
                     </svg>
                 </div>
                 
-                <h2>Your Kapparot has been completed successfully</h2>
-                <p class="completion-description">Your prayers have been offered and your charitable donation has been processed. May this act of tzedakah bring you merit and blessing in the coming year.</p>
+                <h2>Kapparot Complete</h2>
+                <p class="completion-description">Your prayers are done and your donation method was selected.</p>
             </div>
 
             <div class="donation-confirmation">
-                <h3>Donation Details</h3>
+                <h3>Details</h3>
                 <div class="confirmation-card">
+                    <div class="detail-row">
+                        <span class="label">Donor Email:</span>
+                        <span class="value" id="finalDonorEmail"></span>
+                    </div>
                     <div class="detail-row">
                         <span class="label">Performed for:</span>
                         <span class="value" id="finalPerformingFor"></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Name:</span>
-                        <span class="value" id="finalPersonName"></span>
                     </div>
                     <div class="detail-row">
                         <span class="label">Donation Amount:</span>
@@ -54,7 +60,7 @@
             </div>
 
             <div class="blessing-section">
-                <h3>Traditional Blessing</h3>
+                <h3>Blessing</h3>
                 <div class="blessing-card">
                     <div class="hebrew-blessing">
                         <p>תזכו לשנים רבות נעימות וטובות</p>
@@ -65,43 +71,25 @@
                 </div>
             </div>
 
-            <div class="next-steps">
-                <h3>What happens next?</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <h4>📧 Confirmation Email</h4>
-                        <p>You'll receive a confirmation email with your donation receipt within the next few minutes.</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>💝 Charitable Distribution</h4>
-                        <p>Your donation will be distributed to verified charitable organizations helping those in need.</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>📋 Tax Receipt</h4>
-                        <p>Your donation is tax-deductible. Keep your receipt for tax purposes.</p>
-                    </div>
-                </div>
-            </div>
 
             <div class="yom-kippur-reminder">
                 <div class="reminder-card">
-                    <h3>🕊️ Preparing for Yom Kippur</h3>
-                    <p>As you prepare for the Day of Atonement, remember that Kapparot is just one part of the teshuvah (repentance) process. May your prayers, fasting, and charitable giving lead to a meaningful Yom Kippur and a blessed new year.</p>
-                    <p><strong>G'mar Chatimah Tovah</strong> - May you be sealed for good in the Book of Life</p>
+                    <h3>G'mar Chatimah Tovah</h3>
+                    <p>May you be sealed for good.</p>
                 </div>
             </div>
 
             <div class="action-buttons">
                 <button id="performAnother" class="secondary-btn">Perform Another Kapparot</button>
-                <button id="downloadReceipt" class="submit-btn">Download Receipt</button>
             </div>
         </main>
 
         <footer class="footer">
-            <p>&copy; 2025 Kapparot Online. Thank you for fulfilling this sacred tradition through tzedakah.</p>
+            <p>&copy; 2025 Kapparot Online.</p>
         </footer>
     </div>
 
+    <script src="sheets-config.js"></script>
     <script src="completion.js"></script>
 </body>
 </html>

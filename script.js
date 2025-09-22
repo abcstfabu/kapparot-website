@@ -1,11 +1,30 @@
-// Main script for landing page (index.html)
+// Main script for prayer selection + amount page (index.html)
 
 document.addEventListener('DOMContentLoaded', function() {
     const donationForm = document.getElementById('donationForm');
     const amountInput = document.getElementById('amount');
     const amountButtons = document.querySelectorAll('.amount-btn');
-    const cardNumberInput = document.getElementById('cardNumber');
-    const cvvInput = document.getElementById('cvv');
+    const prayerOptions = document.querySelectorAll('.prayer-option');
+    const proceedBtn = document.getElementById('proceedBtn');
+    
+    let selectedPrayerType = null;
+
+    // Prayer option selection
+    prayerOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove selected class from all options
+            prayerOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            this.classList.add('selected');
+            
+            // Get the selected prayer type
+            selectedPrayerType = this.getAttribute('data-type');
+            
+            // Check if we can enable proceed button
+            checkFormCompletion();
+        });
+    });
 
     // Amount button selection
     amountButtons.forEach(button => {
@@ -21,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set the amount in the input field
             const amount = this.getAttribute('data-amount');
             amountInput.value = amount;
+            
+            // Check if we can enable proceed button
+            checkFormCompletion();
         });
     });
 
@@ -28,22 +50,15 @@ document.addEventListener('DOMContentLoaded', function() {
     amountInput.addEventListener('input', function() {
         // Remove active class from all buttons when custom amount is entered
         amountButtons.forEach(btn => btn.classList.remove('active'));
-    });
-
-    // Card number formatting
-    cardNumberInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
         
-        if (formattedValue !== e.target.value) {
-            e.target.value = formattedValue;
-        }
+        // Check if we can enable proceed button
+        checkFormCompletion();
     });
+    
+    // Email input validation
+    const emailInput = document.getElementById('donorEmail');
+    emailInput.addEventListener('input', checkFormCompletion);
 
-    // CVV input validation
-    cvvInput.addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    });
 
     // Form submission
     donationForm.addEventListener('submit', function(e) {
@@ -54,73 +69,60 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Store form data in localStorage
+        // Store form data in localStorage  
+        const emailInput = document.getElementById('donorEmail');
         const formData = {
-            amount: document.getElementById('amount').value,
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            cardNumber: document.getElementById('cardNumber').value,
-            cvv: document.getElementById('cvv').value,
-            expMonth: document.getElementById('expMonth').value,
-            expYear: document.getElementById('expYear').value,
-            billingAddress: document.getElementById('billingAddress').value,
-            city: document.getElementById('city').value,
-            zipCode: document.getElementById('zipCode').value
+            prayerType: selectedPrayerType,
+            amount: amountInput.value,
+            email: emailInput.value
         };
         
         localStorage.setItem('kapparotDonation', JSON.stringify(formData));
         
-        // Redirect to prayer selection page
-        window.location.href = 'prayer-selection.html';
+        // Redirect to payment page
+        window.location.href = 'payment.html';
     });
 
+    function checkFormCompletion() {
+        const emailInput = document.getElementById('donorEmail');
+        const hasAmount = amountInput.value && amountInput.value >= 1;
+        const hasPrayerType = selectedPrayerType !== null;
+        const hasEmail = emailInput.value && isValidEmail(emailInput.value);
+        
+        // Enable button if we have all required fields
+        proceedBtn.disabled = !(hasAmount && hasPrayerType && hasEmail);
+    }
+
     function validateForm() {
-        const amount = document.getElementById('amount').value;
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const cardNumber = document.getElementById('cardNumber').value;
-        const cvv = document.getElementById('cvv').value;
-        const expMonth = document.getElementById('expMonth').value;
-        const expYear = document.getElementById('expYear').value;
+        const amount = amountInput.value;
+        const emailInput = document.getElementById('donorEmail');
+        const email = emailInput.value;
         
         // Basic validation
+        if (!email || !isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            emailInput.focus();
+            return false;
+        }
+        
         if (!amount || amount < 1) {
             alert('Please enter a valid donation amount.');
             return false;
         }
         
-        if (!name.trim()) {
-            alert('Please enter your full name.');
-            return false;
-        }
-        
-        if (!email.trim() || !isValidEmail(email)) {
-            alert('Please enter a valid email address.');
-            return false;
-        }
-        
-        if (!cardNumber.trim() || cardNumber.replace(/\s/g, '').length < 13) {
-            alert('Please enter a valid card number.');
-            return false;
-        }
-        
-        if (!cvv.trim() || cvv.length < 3) {
-            alert('Please enter a valid CVV.');
-            return false;
-        }
-        
-        if (!expMonth || !expYear) {
-            alert('Please select the card expiry date.');
+        if (!selectedPrayerType) {
+            alert('Please select who is performing Kapparot.');
             return false;
         }
         
         return true;
     }
-
+    
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
+
 });
 
 // Utility function to get stored donation data

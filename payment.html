@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Information - Kapparot Online</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Payment Information</h1>
+            <p class="subtitle">Complete your Kapparot donation</p>
+        </header>
+
+        <main class="main-content">
+            <div class="donation-summary">
+                <h2>Donation Summary</h2>
+                <div class="summary-card">
+                    <p><strong>Donor Email:</strong> <span id="donorEmail"></span></p>
+                    <p><strong>Performing Kapparot for:</strong> <span id="performingFor"></span></p>
+                    <p><strong>Amount:</strong> $<span id="donationAmount"></span></p>
+                </div>
+            </div>
+
+            <div class="payment-options">
+                <h2>Choose Your Payment Method</h2>
+                <p class="payment-description">Select your preferred way to complete your Kapparot donation to Ahavas Yisroel Inc:</p>
+                
+                <div class="payment-group">
+                    <h3>Payment Methods</h3>
+                    
+                    <div class="payment-method" onclick="processPayment('stripe')">
+                        <div class="method-header">
+                            <h4>Credit Card (Stripe)</h4>
+                            <span class="method-badge">Secure & Fast</span>
+                        </div>
+                        <p>Pay with any major credit or debit card through our secure Stripe donation page (return to this website after payment to complete your prayer)</p>
+                    </div>
+
+                    <div class="payment-method" onclick="processPayment('paypal')">
+                        <div class="method-header">
+                            <h4>PayPal</h4>
+                            <span class="method-badge">Popular</span>
+                        </div>
+                        <p>Redirect to PayPal with your donation amount pre-filled (return to this website after payment to complete your prayer)</p>
+                    </div>
+
+                    <div class="payment-method" onclick="processPayment('zelle')">
+                        <div class="method-header">
+                            <h4>Zelle / QuickPay</h4>
+                            <span class="method-badge">Fast</span>
+                        </div>
+                        <p>Send to: <strong>yishuveypushka@gmail.com</strong></p>
+                    </div>
+                    
+                    <div class="payment-method" onclick="processPayment('matbia')">
+                        <div class="method-header">
+                            <h4>Matbia</h4>
+                            <span class="method-badge">Jewish Platform</span>
+                        </div>
+                        <p>Donate through the Matbia charitable giving platform</p>
+                    </div>
+
+                    <div class="payment-method" onclick="processPayment('ojc')">
+                        <div class="method-header">
+                            <h4>OJC Payment System</h4>
+                            <span class="method-badge">Secure</span>
+                        </div>
+                        <p>Orthodox Jewish Chamber secure payment portal</p>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Questions or Other Inquiries</h3>
+                    <p>Email us at: <a href="mailto:yishuveypushka@gmail.com" style="color: #667eea; text-decoration: underline;"><strong>yishuveypushka@gmail.com</strong></a></p>
+                </div>
+
+                <div class="security-info">
+                    <p><strong>All Donations Secure:</strong> Your charitable contribution helps fulfill the mitzvah of tzedakah as part of your Kapparot observance. All online payments are processed through secure, encrypted systems.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Kapparot Online. Helping fulfill the tradition of tzedakah during the High Holy Days.</p>
+            <p>
+                <a href="privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: underline;">Privacy Policy</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="sheets-config.js"></script>
+    <script src="payment.js"></script>
+</body>
+</html>

@@ -13,14 +13,14 @@ const PRAYERS = {
         english: `This is my substitute, this is my exchange, this is my atonement. This money shall go to charity, and I shall go to a good, long life and peace.`
     },
     'male-child': {
-        hebrew: `זֶה חֲלִיפַת [שם הילד], זֶה תְּמוּרַת [שם הילד], זֶה כַפָּרַת [שם הילד]. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהוּא יֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Zeh chalifat [child's name], zeh temurat [child's name], zeh kaparat [child's name]. HaKesef hazeh yelech litzedakah, v'hu yelech l'chayim tovim arukim ul'shalom.`,
-        english: `This is the substitute for [child's name], this is the exchange for [child's name], this is the atonement for [child's name]. This money shall go to charity, and he shall go to a good, long life and peace.`
+        hebrew: `זֶה חֲלִיפַת הַיֶּלֶד, זֶה תְּמוּרַת הַיֶּלֶד, זֶה כַפָּרַת הַיֶּלֶד. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהוּא יֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zeh chalifat hayeled, zeh temurat hayeled, zeh kaparat hayeled. HaKesef hazeh yelech litzedakah, v'hu yelech l'chayim tovim arukim ul'shalom.`,
+        english: `This is the substitute for the child, this is the exchange for the child, this is the atonement for the child. This money shall go to charity, and he shall go to a good, long life and peace.`
     },
     'female-child': {
-        hebrew: `זֹאת חֲלִיפַת [שם הילדה], זֹאת תְּמוּרַת [שם הילדה], זֹאת כַפָּרַת [שם הילדה]. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהִיא תֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Zot chalifat [child's name], zot temurat [child's name], zot kaparat [child's name]. HaKesef hazeh yelech litzedakah, v'hi telech l'chayim tovim arukim ul'shalom.`,
-        english: `This is the substitute for [child's name], this is the exchange for [child's name], this is the atonement for [child's name]. This money shall go to charity, and she shall go to a good, long life and peace.`
+        hebrew: `זֹאת חֲלִיפַת הַיַּלְדָּה, זֹאת תְּמוּרַת הַיַּלְדָּה, זֹאת כַפָּרַת הַיַּלְדָּה. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהִיא תֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zot chalifat hayaldah, zot temurat hayaldah, zot kaparat hayaldah. HaKesef hazeh yelech litzedakah, v'hi telech l'chayim tovim arukim ul'shalom.`,
+        english: `This is the substitute for the child, this is the exchange for the child, this is the atonement for the child. This money shall go to charity, and she shall go to a good, long life and peace.`
     },
     family: {
         hebrew: `אֵלֶה חֲלִיפָתֵנוּ, אֵלֶה תְּמוּרָתֵנוּ, אֵלֶה כַפָּרָתֵנוּ. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנַחְנוּ נֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
@@ -34,12 +34,23 @@ const PRAYERS = {
     }
 };
 
+// SECURITY: Clear any sensitive payment data when leaving page
+window.addEventListener('beforeunload', function() {
+    if (window.tempPaymentData) {
+        delete window.tempPaymentData;
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const prayerCompletedCheckbox = document.getElementById('prayerCompleted');
     const completeDonationBtn = document.getElementById('completeDonation');
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
     
     // Load and display data
     loadPrayerData();
+    
+    // Initialize prayer toggle functionality
+    initializePrayerToggle();
     
     // Checkbox change event
     prayerCompletedCheckbox.addEventListener('change', function() {
@@ -53,12 +64,23 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Add completion timestamp
+        // Add completion timestamp and transaction ID
         const completeData = getDonationData();
         completeData.completedAt = new Date().toISOString();
         completeData.transactionId = generateTransactionId();
         
+        // Store safe data for completion page
         localStorage.setItem('kapparotDonation', JSON.stringify(completeData));
+        
+        // Update Google Sheets database with completion status
+        if (typeof window.saveDonation === 'function') {
+            window.saveDonation(completeData);
+        }
+        
+        // Clear any temporary payment data from memory
+        if (window.tempPaymentData) {
+            delete window.tempPaymentData;
+        }
         
         // Redirect to completion page
         window.location.href = 'completion.html';
@@ -75,14 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update display elements
         document.getElementById('performingFor').textContent = getPrayerTypeDisplayName(donationData.prayerType);
-        document.getElementById('personName').textContent = donationData.personName || 'Not specified';
         document.getElementById('finalAmount').textContent = donationData.amount;
         
         // Load appropriate prayer
-        loadPrayer(donationData.prayerType, donationData.personName);
+        loadPrayer(donationData.prayerType);
     }
     
-    function loadPrayer(prayerType, personName) {
+    function loadPrayer(prayerType) {
         const prayer = PRAYERS[prayerType];
         
         if (!prayer) {
@@ -90,22 +111,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Replace name placeholders
-        let hebrew = prayer.hebrew;
-        let transliteration = prayer.transliteration;
-        let english = prayer.english;
-        
-        if (personName) {
-            hebrew = hebrew.replace(/\[שם הילד\]/g, personName)
-                          .replace(/\[שם הילדה\]/g, personName);
-            transliteration = transliteration.replace(/\[child's name\]/g, personName);
-            english = english.replace(/\[child's name\]/g, personName);
-        }
-        
-        // Update DOM
-        document.getElementById('hebrewPrayer').innerHTML = hebrew;
-        document.getElementById('transliterationPrayer').innerHTML = transliteration;
-        document.getElementById('englishPrayer').innerHTML = english;
+        // Update DOM with prayers
+        document.getElementById('hebrewPrayer').innerHTML = prayer.hebrew;
+        document.getElementById('transliterationPrayer').innerHTML = prayer.transliteration;
+        document.getElementById('englishPrayer').innerHTML = prayer.english;
     }
     
     function getPrayerTypeDisplayName(prayerType) {
@@ -125,6 +134,38 @@ document.addEventListener('DOMContentLoaded', function() {
         const timestamp = Date.now().toString(36);
         const randomStr = Math.random().toString(36).substr(2, 5);
         return `KAP-${timestamp.toUpperCase()}-${randomStr.toUpperCase()}`;
+    }
+    
+    function initializePrayerToggle() {
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Show the selected prayer version
+                const prayerType = this.getAttribute('data-prayer');
+                showPrayerVersion(prayerType);
+            });
+        });
+    }
+    
+    function showPrayerVersion(version) {
+        // Hide all prayer contents
+        const prayerContents = document.querySelectorAll('.prayer-content');
+        prayerContents.forEach(content => {
+            content.style.display = 'none';
+        });
+        
+        // Show selected version
+        const targetContent = document.getElementById(`${version}-content`);
+        if (targetContent) {
+            targetContent.style.display = 'block';
+        }
     }
 });
 
