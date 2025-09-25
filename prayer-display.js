@@ -1,176 +1,205 @@
-// JavaScript for prayer display page (prayer-display.html)
+// Prayer Display Page JavaScript - Clean Implementation
 
-// Prayer texts for different types of Kapparot
+// Prayer texts for all types
 const PRAYERS = {
-    male: {
+    'self-male': {
         hebrew: `זֶה חֲלִיפָתִי, זֶה תְּמוּרָתִי, זֶה כַפָּרָתִי. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנִי אֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
         transliteration: `Zeh chalifati, zeh temurati, zeh kaparati. HaKesef hazeh yelech litzedakah, va'ani elech l'chayim tovim arukim ul'shalom.`,
         english: `This is my substitute, this is my exchange, this is my atonement. This money shall go to charity, and I shall go to a good, long life and peace.`
     },
-    female: {
-        hebrew: `זֹאת חֲלִיפָתִי, זֹאת תְּמוּרָתִי, זֹאת כַפָּרָתִי. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנִי אֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Zot chalifati, zot temurati, zot kaparati. HaKesef hazeh yelech litzedakah, va'ani elech l'chayim tovim arukim ul'shalom.`,
+    'self-female': {
+        hebrew: `זֶה חֲלִיפָתִי, זֶה תְּמוּרָתִי, זֶה כַפָּרָתִי. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנִי אֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zeh chalifati, zeh temurati, zeh kaparati. HaKesef hazeh yelech litzedakah, va'ani elech l'chayim tovim arukim ul'shalom.`,
         english: `This is my substitute, this is my exchange, this is my atonement. This money shall go to charity, and I shall go to a good, long life and peace.`
     },
-    'male-child': {
-        hebrew: `זֶה חֲלִיפַת הַיֶּלֶד, זֶה תְּמוּרַת הַיֶּלֶד, זֶה כַפָּרַת הַיֶּלֶד. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהוּא יֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Zeh chalifat hayeled, zeh temurat hayeled, zeh kaparat hayeled. HaKesef hazeh yelech litzedakah, v'hu yelech l'chayim tovim arukim ul'shalom.`,
-        english: `This is the substitute for the child, this is the exchange for the child, this is the atonement for the child. This money shall go to charity, and he shall go to a good, long life and peace.`
+    'self-pregnant': {
+        hebrew: `זֶה חֲלִיפָתִי, זֶה תְּמוּרָתִי, זֶה כַפָּרָתִי. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנִי אֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם. זֶה חֲלִיפַת הַוָּלָד שֶׁבְּמֵעַי, זֶה תְּמוּרַת הַוָּלָד שֶׁבְּמֵעַי, זֶה כַּפָּרַת הַוָּלָד שֶׁבְּמֵעַי. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהוּא יֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zeh chalifati, zeh temurati, zeh kaparati. HaKesef hazeh yelech litzedakah, va'ani elech l'chayim tovim arukim ul'shalom. Zeh chalifat havalad sheb'me'ai, zeh temurat havalad sheb'me'ai, zeh kaparat havalad sheb'me'ai. HaKesef hazeh yelech litzedakah, v'hu yelech l'chayim tovim arukim ul'shalom.`,
+        english: `This is my substitute, this is my exchange, this is my atonement. This money shall go to charity, and I shall go to a good, long life and peace. This is the substitute of the child in my womb, this is the exchange of the child in my womb, this is the atonement of the child in my womb. This money shall go to charity, and he/she shall go to a good, long life and peace.`
     },
-    'female-child': {
-        hebrew: `זֹאת חֲלִיפַת הַיַּלְדָּה, זֹאת תְּמוּרַת הַיַּלְדָּה, זֹאת כַפָּרַת הַיַּלְדָּה. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהִיא תֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Zot chalifat hayaldah, zot temurat hayaldah, zot kaparat hayaldah. HaKesef hazeh yelech litzedakah, v'hi telech l'chayim tovim arukim ul'shalom.`,
-        english: `This is the substitute for the child, this is the exchange for the child, this is the atonement for the child. This money shall go to charity, and she shall go to a good, long life and peace.`
+    'other-male': {
+        hebrew: `זֶה חֲלִיפָתוֹ, זֶה תְּמוּרָתוֹ, זֶה כַּפָּרָתוֹ. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהוּא יֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zeh chalifato, zeh temurato, zeh kaparato. HaKesef hazeh yelech litzedakah, v'hu yelech l'chayim tovim arukim ul'shalom.`,
+        english: `This is his substitute, this is his exchange, this is his atonement. This money shall go to charity, and he shall go to a good, long life and peace.`
     },
-    family: {
-        hebrew: `אֵלֶה חֲלִיפָתֵנוּ, אֵלֶה תְּמוּרָתֵנוּ, אֵלֶה כַפָּרָתֵנוּ. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנַחְנוּ נֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Eleh chalifatenu, eleh temuratenu, eleh kaparatenu. HaKesef hazeh yelech litzedakah, va'anachnu nelech l'chayim tovim arukim ul'shalom.`,
-        english: `These are our substitutes, these are our exchanges, these are our atonements. This money shall go to charity, and we shall go to a good, long life and peace.`
+    'other-female': {
+        hebrew: `זֶה חֲלִיפָתָהּ, זֶה תְּמוּרָתָהּ, זֶה כַּפָּרָתָהּ. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהִיא תֵּלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zeh chalifatah, zeh temuratah, zeh kaparatah. HaKesef hazeh yelech litzedakah, v'hi telech l'chayim tovim arukim ul'shalom.`,
+        english: `This is her substitute, this is her exchange, this is her atonement. This money shall go to charity, and she shall go to a good, long life and peace.`
     },
-    pregnant: {
-        hebrew: `זֹאת חֲלִיפָתִי, זֹאת תְּמוּרָתִי, זֹאת כַפָּרָתִי, וְזֶה חֲלִיפַת הָעֻבָּר שֶׁבְּמֵעַי, זֶה תְּמוּרַת הָעֻבָּר שֶׁבְּמֵעַי, זֶה כַפָּרַת הָעֻבָּר שֶׁבְּמֵעַי. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וַאֲנִי וְהָעֻבָּר שֶׁבְּמֵעַי נֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
-        transliteration: `Zot chalifati, zot temurati, zot kaparati, v'zeh chalifat ha'ubar sheb'mei'ai, zeh temurat ha'ubar sheb'mei'ai, zeh kaparat ha'ubar sheb'mei'ai. HaKesef hazeh yelech litzedakah, va'ani v'ha'ubar sheb'mei'ai nelech l'chayim tovim arukim ul'shalom.`,
-        english: `This is my substitute, this is my exchange, this is my atonement, and this is the substitute for the child in my womb, this is the exchange for the child in my womb, this is the atonement for the child in my womb. This money shall go to charity, and I and the child in my womb shall go to a good, long life and peace.`
+    'other-pregnant': {
+        hebrew: `זֶה חֲלִיפָתָהּ, זֶה תְּמוּרָתָהּ, זֶה כַּפָּרָתָהּ. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהִיא תֵּלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם. זֶה חֲלִיפַת הַוָּלָד שֶׁבְּמֵעֶיהָ, זֶה תְּמוּרַת הַוָּלָד שֶׁבְּמֵעֶיהָ, זֶה כַּפָּרַת הַוָּלָד שֶׁבְּמֵעֶיהָ. הַכֶּסֶף הַזֶה יֵלֵךְ לִצְדָקָה, וְהוּא יֵלֵךְ לְחַיִּים טוֹבִים אֲרֻכִּים וּלְשָׁלוֹם.`,
+        transliteration: `Zeh chalifatah, zeh temuratah, zeh kaparatah. HaKesef hazeh yelech litzedakah, v'hi telech l'chayim tovim arukim ul'shalom. Zeh chalifat havalad sheb'me'eiha, zeh temurat havalad sheb'me'eiha, zeh kaparat havalad sheb'me'eiha. HaKesef hazeh yelech litzedakah, v'hu yelech l'chayim tovim arukim ul'shalom.`,
+        english: `This is her substitute, this is her exchange, this is her atonement. This money shall go to charity, and she shall go to a good, long life and peace. This is the substitute of the child in her womb, this is the exchange of the child in her womb, this is the atonement of the child in her womb. This money shall go to charity, and he/she shall go to a good, long life and peace.`
     }
 };
 
-// SECURITY: Clear any sensitive payment data when leaving page
-window.addEventListener('beforeunload', function() {
-    if (window.tempPaymentData) {
-        delete window.tempPaymentData;
-    }
-});
-
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    const prayerCompletedCheckbox = document.getElementById('prayerCompleted');
-    const completeDonationBtn = document.getElementById('completeDonation');
-    const toggleBtns = document.querySelectorAll('.toggle-btn');
-    
-    // Load and display data
-    loadPrayerData();
-    
-    // Initialize prayer toggle functionality
-    initializePrayerToggle();
-    
-    // Checkbox change event
-    prayerCompletedCheckbox.addEventListener('change', function() {
-        completeDonationBtn.disabled = !this.checked;
-    });
-    
-    // Complete donation button click
-    completeDonationBtn.addEventListener('click', function() {
-        if (!prayerCompletedCheckbox.checked) {
-            alert('Please confirm that you have completed the prayer recitation.');
-            return;
-        }
-        
-        // Add completion timestamp and transaction ID
-        const completeData = getDonationData();
-        completeData.completedAt = new Date().toISOString();
-        completeData.transactionId = generateTransactionId();
-        
-        // Store safe data for completion page
-        localStorage.setItem('kapparotDonation', JSON.stringify(completeData));
-        
-        // Update Google Sheets database with completion status
-        if (typeof window.saveDonation === 'function') {
-            window.saveDonation(completeData);
-        }
-        
-        // Clear any temporary payment data from memory
-        if (window.tempPaymentData) {
-            delete window.tempPaymentData;
-        }
-        
-        // Redirect to completion page
-        window.location.href = 'completion.html';
-    });
-
-    function loadPrayerData() {
-        const donationData = getDonationData();
-        
-        if (!donationData || !donationData.prayerType) {
-            // Redirect to home if missing data
-            window.location.href = 'index.html';
-            return;
-        }
-        
-        // Update display elements
-        document.getElementById('performingFor').textContent = getPrayerTypeDisplayName(donationData.prayerType);
-        document.getElementById('finalAmount').textContent = donationData.amount;
-        
-        // Load appropriate prayer
-        loadPrayer(donationData.prayerType);
-    }
-    
-    function loadPrayer(prayerType) {
-        const prayer = PRAYERS[prayerType];
-        
-        if (!prayer) {
-            console.error('Prayer type not found:', prayerType);
-            return;
-        }
-        
-        // Update DOM with prayers
-        document.getElementById('hebrewPrayer').innerHTML = prayer.hebrew;
-        document.getElementById('transliterationPrayer').innerHTML = prayer.transliteration;
-        document.getElementById('englishPrayer').innerHTML = prayer.english;
-    }
-    
-    function getPrayerTypeDisplayName(prayerType) {
-        const names = {
-            'male': 'Male Adult',
-            'female': 'Female Adult',
-            'male-child': 'Male Child',
-            'female-child': 'Female Child',
-            'family': 'Entire Family',
-            'pregnant': 'Pregnant Woman'
-        };
-        
-        return names[prayerType] || prayerType;
-    }
-    
-    function generateTransactionId() {
-        const timestamp = Date.now().toString(36);
-        const randomStr = Math.random().toString(36).substr(2, 5);
-        return `KAP-${timestamp.toUpperCase()}-${randomStr.toUpperCase()}`;
-    }
-    
-    function initializePrayerToggle() {
-        const toggleBtns = document.querySelectorAll('.toggle-btn');
-        
-        toggleBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all buttons
-                toggleBtns.forEach(b => b.classList.remove('active'));
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Show the selected prayer version
-                const prayerType = this.getAttribute('data-prayer');
-                showPrayerVersion(prayerType);
-            });
-        });
-    }
-    
-    function showPrayerVersion(version) {
-        // Hide all prayer contents
-        const prayerContents = document.querySelectorAll('.prayer-content');
-        prayerContents.forEach(content => {
-            content.style.display = 'none';
-        });
-        
-        // Show selected version
-        const targetContent = document.getElementById(`${version}-content`);
-        if (targetContent) {
-            targetContent.style.display = 'block';
-        }
-    }
+    initializePage();
 });
 
-// Utility function to get stored donation data
+function initializePage() {
+    // Load donation data and display prayer
+    loadPrayerContent();
+    
+    // Setup toggle buttons
+    setupToggleButtons();
+    
+    // Setup completion checkbox and buttons
+    setupCompletionActions();
+    
+    // Update total amount display
+    updateTotalAmount();
+}
+
+function loadPrayerContent() {
+    // Get donation data
+    const donationData = getDonationData();
+    
+    if (!donationData || !donationData.prayerType) {
+        // No data - redirect back to start
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    // Update summary display
+    document.getElementById('performingFor').textContent = getPrayerTypeDisplayName(donationData.prayerType);
+    document.getElementById('finalAmount').textContent = donationData.amount;
+    
+    // Load the appropriate prayer
+    const prayer = PRAYERS[donationData.prayerType];
+    
+    if (prayer) {
+        // Insert prayer texts into the page
+        document.querySelector('#hebrew-prayer .hebrew-text').textContent = prayer.hebrew;
+        document.querySelector('#transliteration-prayer .transliteration-text').textContent = prayer.transliteration;
+        document.querySelector('#english-prayer .english-text').textContent = prayer.english;
+    } else {
+        // Fallback if prayer type not found
+        const fallbackText = 'Prayer text not available for this selection.';
+        document.querySelector('#hebrew-prayer .hebrew-text').textContent = fallbackText;
+        document.querySelector('#transliteration-prayer .transliteration-text').textContent = fallbackText;
+        document.querySelector('#english-prayer .english-text').textContent = fallbackText;
+    }
+}
+
+function setupToggleButtons() {
+    const toggleButtons = document.querySelectorAll('.toggle-button');
+    const prayerTexts = document.querySelectorAll('.prayer-text');
+    
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            
+            // Remove active class from all buttons and texts
+            toggleButtons.forEach(btn => btn.classList.remove('active'));
+            prayerTexts.forEach(text => text.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding text
+            this.classList.add('active');
+            document.getElementById(lang + '-prayer').classList.add('active');
+        });
+    });
+}
+
+function setupCompletionActions() {
+    const performAnotherBtn = document.getElementById('performAnother');
+    const proceedToDonateBtn = document.getElementById('proceedToDonate');
+    
+    // Handle "Perform Another Kapparot"
+    performAnotherBtn.addEventListener('click', function() {
+        // Mark current prayer as completed
+        markPrayerCompleted();
+        
+        // Get session data for email prefilling
+        const sessionData = getSessionData();
+        const email = sessionData.email || '';
+        
+        // Redirect back to index with prefilled email
+        window.location.href = 'index.html' + (email ? '?email=' + encodeURIComponent(email) : '');
+    });
+    
+    // Handle "Proceed to Donate"
+    proceedToDonateBtn.addEventListener('click', function() {
+        // Mark current prayer as completed
+        markPrayerCompleted();
+        
+        // Prepare final donation data
+        prepareFinalDonation();
+        
+        // Go to payment page
+        window.location.href = 'payment.html';
+    });
+}
+
+function updateTotalAmount() {
+    const sessionData = getSessionData();
+    const donationData = getDonationData();
+    
+    // Calculate total amount
+    let totalAmount = sessionData.totalAmount || 0;
+    if (totalAmount === 0 && donationData && donationData.amount) {
+        totalAmount = parseFloat(donationData.amount);
+    }
+    
+    // Update display
+    document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+}
+
+function markPrayerCompleted() {
+    // Get session data
+    const sessionData = getSessionData();
+    
+    // Mark the most recent prayer as completed
+    if (sessionData.prayers && sessionData.prayers.length > 0) {
+        sessionData.prayers[sessionData.prayers.length - 1].completedAt = new Date().toISOString();
+        localStorage.setItem('kapparotSession', JSON.stringify(sessionData));
+    }
+}
+
+function prepareFinalDonation() {
+    const sessionData = getSessionData();
+    
+    // Create final donation record for payment
+    const finalDonationData = {
+        prayerType: 'multiple',
+        amount: sessionData.totalAmount,
+        email: sessionData.email,
+        prayers: sessionData.prayers,
+        timestamp: new Date().toISOString(),
+        transactionId: generateTransactionId()
+    };
+    
+    // Store for payment page
+    localStorage.setItem('kapparotDonation', JSON.stringify(finalDonationData));
+}
+
+// Utility Functions
 function getDonationData() {
     const data = localStorage.getItem('kapparotDonation');
     return data ? JSON.parse(data) : null;
+}
+
+function getSessionData() {
+    const data = localStorage.getItem('kapparotSession');
+    return data ? JSON.parse(data) : {};
+}
+
+function generateTransactionId() {
+    return 'KAP-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+}
+
+function getPrayerTypeDisplayName(prayerType) {
+    const names = {
+        'self-male': 'Male (For Yourself)',
+        'self-female': 'Female (For Yourself)',
+        'self-pregnant': 'Pregnant Woman (For Yourself)',
+        'other-male': 'Male (For Other)',
+        'other-female': 'Female (For Other)',
+        'other-pregnant': 'Pregnant Woman (For Other)',
+        'multiple': 'Multiple Kapparot Prayers'
+    };
+    
+    return names[prayerType] || prayerType;
 }

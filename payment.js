@@ -1,15 +1,12 @@
 // JavaScript for payment page (payment.html)
 
-// Payment URLs with amount parameters (simplified, no return URLs)
-function getPaymentUrls(amount) {
-    const amountCents = Math.round(parseFloat(amount) * 100); // Convert to cents
+// Payment URLs with email prefilling
+function getPaymentUrls(amount, email) {
+    const encodedEmail = encodeURIComponent(email || ''); // URL encode email
     
     return {
-        // Stripe donation page (simplified, no return URLs)
-        stripe: 'https://donate.stripe.com/5kAdUbdiv2ZJ81O000?amount=' + amountCents,
-        
-        // PayPal.me link with amount (simpler, more reliable)
-        paypal: 'https://paypal.me/yishuveypushka/' + amount + 'USD',
+        // Stripe donation page with email prefilling
+        stripe: 'https://donate.stripe.com/5kAdUbdiv2ZJ81O000?prefilled_email=' + encodedEmail,
         
         // Matbia (simplified, no return parameters)
         matbia: 'https://matbia.org/d/00124222281',
@@ -47,7 +44,8 @@ function loadDonationSummary() {
 // Handle payment method selection
 window.processPayment = function(method) {
     const donationData = JSON.parse(localStorage.getItem('kapparotDonation') || '{}');
-    const paymentUrls = getPaymentUrls(donationData.amount);
+    console.log('Payment processing - Retrieved data:', donationData); // Debug log
+    const paymentUrls = getPaymentUrls(donationData.amount, donationData.email);
     
     // Add payment method to donation data with user-friendly names
     const paymentMethodNames = {
@@ -62,19 +60,25 @@ window.processPayment = function(method) {
     donationData.timestamp = new Date().toISOString();
     donationData.transactionId = 'KAP-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
     
+    console.log('Payment processing - Modified data:', donationData); // Debug log
+    
     // Save donation record first
     localStorage.setItem('kapparotDonation', JSON.stringify(donationData));
+    console.log('Payment processing - Data saved to localStorage'); // Debug log
     
     // Try to save to Google Sheets
     if (typeof window.saveDonation === 'function') {
         window.saveDonation(donationData);
     }
     
+    // Clear accumulated session after payment method selection (reset for next user)
+    localStorage.removeItem('kapparotSession');
+    
     // Handle different payment methods
     switch(method) {
         case 'stripe':
-            // Stripe credit card payment with instructions
-            const stripeConfirm = confirm('Stripe Payment:\n\nClick OK to go to Stripe to make your $' + donationData.amount + ' donation.\n\nAfter completing payment, please return to this website to complete your Kapparot prayer.\n\nClick OK to proceed to Stripe, or Cancel to choose a different payment method.');
+            // Stripe credit card payment with email pre-filled
+            const stripeConfirm = confirm('Stripe Payment:\n\nClick OK to go to Stripe to make your $' + donationData.amount + ' donation.\n\nYour email will be pre-filled on the payment form.\n\nAfter completing payment, please return to this website to complete your Kapparot prayer.\n\nClick OK to proceed to Stripe, or Cancel to choose a different payment method.');
             
             if (stripeConfirm) {
                 window.location.href = paymentUrls.stripe;
@@ -100,25 +104,35 @@ window.processPayment = function(method) {
             break;
             
         case 'paypal':
-            // PayPal.me redirect with instructions
-            const paypalConfirm = confirm('PayPal Payment:\n\nClick OK to go to PayPal to send your $' + donationData.amount + ' donation.\n\nAfter completing payment, please return to this website to complete your Kapparot prayer.\n\nClick OK to proceed to PayPal, or Cancel to choose a different payment method.');
+            // Show PayPal payment instructions and proceed to completion
+            const paypalMessage = 'PayPal Payment Instructions:\n\n' +
+                'Send your donation to: yishuveypushka@gmail.com\n' +
+                'Amount: $' + donationData.amount + '\n\n' +
+                'Please include "Kapparot - ' + getPrayerTypeDisplayName(donationData.prayerType) + '" in the notes.\n\n' +
+                'After sending your payment, click OK to complete your Kapparot.';
             
-            if (paypalConfirm) {
-                window.location.href = paymentUrls.paypal;
-            }
+            alert(paypalMessage);
+            // Add completion timestamp since payment instructions were given
+            donationData.completedAt = new Date().toISOString();
+            localStorage.setItem('kapparotDonation', JSON.stringify(donationData));
+            // Redirect directly to completion page
+            window.location.href = 'completion.html';
             break;
             
         case 'zelle':
-            // Show Zelle instructions and proceed to prayer
+            // Show Zelle instructions and proceed to completion
             const zelleMessage = 'Zelle/QuickPay Payment Instructions:\n\n' +
                 'Send your donation to: yishuveypushka@gmail.com\n' +
                 'Amount: $' + donationData.amount + '\n\n' +
                 'Please include "Kapparot - ' + getPrayerTypeDisplayName(donationData.prayerType) + '" in the notes.\n\n' +
-                'After sending your payment, click OK to continue to your Kapparot prayer.';
+                'After sending your payment, click OK to complete your Kapparot.';
             
             alert(zelleMessage);
-            // Redirect directly to prayer page (payment method already saved above)
-            window.location.href = 'prayer-display.html';
+            // Add completion timestamp since payment instructions were given
+            donationData.completedAt = new Date().toISOString();
+            localStorage.setItem('kapparotDonation', JSON.stringify(donationData));
+            // Redirect directly to completion page
+            window.location.href = 'completion.html';
             break;
             
         default:
@@ -126,16 +140,15 @@ window.processPayment = function(method) {
     }
 };
 
-// Removed proceedToPrayer function - no longer needed with simplified payment flow
-
 function getPrayerTypeDisplayName(prayerType) {
     const names = {
-        'male': 'Male Adult',
-        'female': 'Female Adult',
-        'male-child': 'Male Child',
-        'female-child': 'Female Child',
-        'family': 'Entire Family',
-        'pregnant': 'Pregnant Woman'
+        'self-male': 'Male (For Yourself)',
+        'self-female': 'Female (For Yourself)',
+        'self-pregnant': 'Pregnant Woman (For Yourself)',
+        'other-male': 'Male (For Other)',
+        'other-female': 'Female (For Other)',
+        'other-pregnant': 'Pregnant Woman (For Other)',
+        'multiple': 'Multiple Kapparot Prayers'
     };
     
     return names[prayerType] || prayerType;
@@ -147,7 +160,7 @@ function getDonationData() {
     return data ? JSON.parse(data) : null;
 }
 
-// Embedded PayPal functionality removed - using direct redirect only
+// PayPal now uses email display (like Zelle) instead of external redirect
 
 // Clear any temporary payment data when page unloads
 window.addEventListener('beforeunload', function() {

@@ -168,12 +168,13 @@ class KapparotDatabase {
     // Helper function
     getPrayerTypeDisplayName(prayerType) {
         const names = {
-            'male': 'Male Adult',
-            'female': 'Female Adult',
-            'male-child': 'Male Child',
-            'female-child': 'Female Child',
-            'family': 'Entire Family',
-            'pregnant': 'Pregnant Woman'
+            'self-male': 'Male (For Yourself)',
+            'self-female': 'Female (For Yourself)',
+            'self-pregnant': 'Pregnant Woman (For Yourself)',
+            'other-male': 'Male (For Other)',
+            'other-female': 'Female (For Other)',
+            'other-pregnant': 'Pregnant Woman (For Other)',
+            'multiple': 'Multiple Kapparot Prayers'
         };
         
         return names[prayerType] || prayerType;

@@ -30,46 +30,60 @@
                 <h2>Who is performing Kapparot?</h2>
                 <p class="instruction">Please select the appropriate prayer based on who is performing the ritual:</p>
                 
-                <div class="prayer-options">
-                    <div class="prayer-option" data-type="male">
-                        <div class="option-header">
-                            <h3>👨 For a Male</h3>
-                            <p>Select this if a male is performing Kapparot for himself</p>
+                <!-- Section Toggle Buttons -->
+                <div class="section-toggles">
+                    <button class="section-toggle active" data-section="self">Doing for Yourself</button>
+                    <button class="section-toggle" data-section="other">Doing for Other</button>
+                </div>
+                
+                <!-- Section 1: Doing for Yourself -->
+                <div class="prayer-section active" id="self-section">
+                    <div class="prayer-options">
+                        <div class="prayer-option" data-type="self-male">
+                            <div class="option-header">
+                                <h4>For a Male</h4>
+                                <p>Select this if you are a male performing Kapparot for yourself</p>
+                            </div>
+                        </div>
+
+                        <div class="prayer-option" data-type="self-female">
+                            <div class="option-header">
+                                <h4>For a Female</h4>
+                                <p>Select this if you are a female performing Kapparot for yourself</p>
+                            </div>
+                        </div>
+
+                        <div class="prayer-option" data-type="self-pregnant">
+                            <div class="option-header">
+                                <h4>For a Pregnant Woman</h4>
+                                <p>Select this if you are an expectant mother performing Kapparot for yourself</p>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="prayer-option" data-type="female">
-                        <div class="option-header">
-                            <h3>👩 For a Female</h3>
-                            <p>Select this if a female is performing Kapparot for herself</p>
+                <!-- Section 2: Doing for Other -->
+                <div class="prayer-section" id="other-section">
+                    <div class="prayer-options">
+                        <div class="prayer-option" data-type="other-male">
+                            <div class="option-header">
+                                <h4>For a Male</h4>
+                                <p>Select this if you are performing Kapparot for another male</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="prayer-option" data-type="male-child">
-                        <div class="option-header">
-                            <h3>👦 For a Male Child</h3>
-                            <p>Select this if performing Kapparot for a young boy</p>
+                        <div class="prayer-option" data-type="other-female">
+                            <div class="option-header">
+                                <h4>For a Female</h4>
+                                <p>Select this if you are performing Kapparot for another female</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="prayer-option" data-type="female-child">
-                        <div class="option-header">
-                            <h3>👧 For a Female Child</h3>
-                            <p>Select this if performing Kapparot for a young girl</p>
-                        </div>
-                    </div>
-
-                    <div class="prayer-option" data-type="family">
-                        <div class="option-header">
-                            <h3>👨‍👩‍👧‍👦 For the Entire Family</h3>
-                            <p>Select this for a general family Kapparot (includes all variations)</p>
-                        </div>
-                    </div>
-
-                    <div class="prayer-option" data-type="pregnant">
-                        <div class="option-header">
-                            <h3>🤱 For a Pregnant Woman</h3>
-                            <p>Special prayer for expectant mothers (includes prayers for both mother and unborn child)</p>
+                        <div class="prayer-option" data-type="other-pregnant">
+                            <div class="option-header">
+                                <h4>For a Pregnant Woman</h4>
+                                <p>Select this if you are performing Kapparot for an expectant mother</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +96,7 @@
                     <div class="form-group">
                         <label for="donorEmail">Your Email Address</label>
                         <input type="email" id="donorEmail" name="donorEmail" placeholder="your-email@example.com" required>
-                        <small style="color: #6b7280; font-size: 0.9rem;">We'll send you a receipt and save your donation record</small>
+                        <small style="color: #6b7280; font-size: 0.9rem;">In case we need to contact you for about your donation.</small>
                     </div>
                     
                     <div class="form-group">
@@ -96,7 +110,7 @@
                         <input type="number" id="amount" name="amount" min="1" step="1" placeholder="Enter custom amount" required>
                     </div>
 
-                    <button type="submit" class="submit-btn" id="proceedBtn" disabled>Continue to Payment</button>
+                    <button type="submit" class="submit-btn" id="proceedBtn" disabled>Continue to Prayer</button>
                 </form>
             </div>
         </main>
@@ -104,7 +118,8 @@
         <footer class="footer">
             <p>&copy; 2025 Kapparot Online. Helping fulfill the tradition of tzedakah during the High Holy Days.</p>
             <p>
-                <a href="privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: underline;">Privacy Policy</a>
+                <a href="privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: underline;">Privacy Policy</a> | 
+                <a href="index.html?reset=true" style="color: rgba(255,255,255,0.6); text-decoration: none;">Start Fresh Session</a>
             </p>
         </footer>
     </div>

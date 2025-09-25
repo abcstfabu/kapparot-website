@@ -6,8 +6,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountButtons = document.querySelectorAll('.amount-btn');
     const prayerOptions = document.querySelectorAll('.prayer-option');
     const proceedBtn = document.getElementById('proceedBtn');
+    const sectionToggles = document.querySelectorAll('.section-toggle');
+    const prayerSections = document.querySelectorAll('.prayer-section');
     
     let selectedPrayerType = null;
+
+    // Check for email parameter and prefill if present (from "Perform Another")
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillEmail = urlParams.get('email');
+    const resetSession = urlParams.get('reset');
+    
+    if (resetSession === 'true') {
+        // Clear session when explicitly requested (fresh start)
+        localStorage.removeItem('kapparotSession');
+    }
+    
+    if (prefillEmail) {
+        const emailInput = document.getElementById('donorEmail');
+        if (emailInput) {
+            emailInput.value = prefillEmail;
+        }
+        
+        // Clean up URL (remove parameters after prefilling)
+        const cleanUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+    }
+
+    // Section toggle functionality
+    sectionToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            // Remove active class from all toggles and sections
+            sectionToggles.forEach(t => t.classList.remove('active'));
+            prayerSections.forEach(s => s.classList.remove('active'));
+            
+            // Add active class to clicked toggle
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const sectionId = this.getAttribute('data-section') + '-section';
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Clear any selected prayer option when switching sections
+            prayerOptions.forEach(opt => opt.classList.remove('selected'));
+            selectedPrayerType = null;
+            checkFormCompletion();
+        });
+    });
 
     // Prayer option selection
     prayerOptions.forEach(option => {
@@ -71,16 +115,38 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Store form data in localStorage  
         const emailInput = document.getElementById('donorEmail');
+        
+        // Get existing session data (for multiple Kapparot tracking)
+        const existingSession = JSON.parse(localStorage.getItem('kapparotSession') || '{}');
+        const existingTotal = existingSession.totalAmount || 0;
+        const currentAmount = parseFloat(amountInput.value);
+        
         const formData = {
             prayerType: selectedPrayerType,
             amount: amountInput.value,
             email: emailInput.value
         };
         
-        localStorage.setItem('kapparotDonation', JSON.stringify(formData));
+        // Update session data with cumulative amounts
+        const sessionData = {
+            totalAmount: existingTotal + currentAmount,
+            currentAmount: currentAmount,
+            email: emailInput.value,
+            prayers: existingSession.prayers || []
+        };
         
-        // Redirect to payment page
-        window.location.href = 'payment.html';
+        // Add current prayer to list
+        sessionData.prayers.push({
+            prayerType: selectedPrayerType,
+            amount: currentAmount,
+            timestamp: new Date().toISOString()
+        });
+        
+        localStorage.setItem('kapparotDonation', JSON.stringify(formData));
+        localStorage.setItem('kapparotSession', JSON.stringify(sessionData));
+        
+        // Redirect directly to prayer page (skip payment)
+        window.location.href = 'prayer-display.html';
     });
 
     function checkFormCompletion() {

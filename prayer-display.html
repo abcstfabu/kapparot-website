@@ -3,94 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kapparot Prayer - Kapparot Online</title>
-    
-    <!-- Favicon -->
+    <title>Your Kapparot Prayer - Kapparot Online</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
     <link rel="apple-touch-icon" href="favicon.svg">
-    
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Kapparot Prayer</h1>
-            <p class="subtitle">Perform the Kapparot ritual with your donation</p>
+            <h1>Your Kapparot Prayer</h1>
+            <p class="subtitle">Recite this prayer three times while circling the money over your head</p>
         </header>
 
         <main class="main-content">
+            <!-- Prayer Summary -->
             <div class="donation-summary">
-                <div class="summary-card">
-                    <p><strong>Performing Kapparot for:</strong> <span id="performingFor"></span></p>
-                    <p><strong>Donation Amount:</strong> $<span id="finalAmount"></span></p>
+                <h2>Prayer Details</h2>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="label">Performing For:</span>
+                        <span id="performingFor">Loading...</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Amount:</span>
+                        <span>$<span id="finalAmount">0</span></span>
+                    </div>
                 </div>
             </div>
 
-            <div class="instructions">
-                <h2>How to Perform Kapparot</h2>
+            <!-- Prayer Instructions -->
+            <div class="prayer-instructions">
+                <h4>How to Perform Kapparot</h4>
                 <ol>
-                    <li>Take some coins or bills (representing your donation) in your hand</li>
+                    <li>Hold the money in your right hand</li>
                     <li>Circle the money over your head three times</li>
-                    <li>Recite the prayer below during each circle (use the toggle buttons to choose your preferred language)</li>
-                    <li>After completing the prayer, your donation will be processed and given to charity</li>
+                    <li>Recite the prayer below each time you circle</li>
+                    <li>After completing, choose your next step below</li>
                 </ol>
             </div>
 
-            <div class="prayer-section">
-                <h2>Kapparot Prayer</h2>
-                
-                <!-- Prayer Language Toggle -->
-                <div class="prayer-toggle">
-                    <button class="toggle-btn active" data-prayer="hebrew">עברית (Hebrew)</button>
-                    <button class="toggle-btn" data-prayer="transliteration">Transliteration</button>
-                    <button class="toggle-btn" data-prayer="english">English</button>
-                </div>
-                
-                <div class="prayer-card">
-                    <!-- Hebrew Prayer (default visible) -->
-                    <div class="prayer-content hebrew-prayer" id="hebrew-content">
-                        <div class="hebrew-text" id="hebrewPrayer">
-                            <!-- Prayer will be inserted here by JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- Transliteration (hidden by default) -->
-                    <div class="prayer-content transliteration" id="transliteration-content" style="display: none;">
-                        <div class="transliteration-text" id="transliterationPrayer">
-                            <!-- Transliteration will be inserted here by JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- English Translation (hidden by default) -->
-                    <div class="prayer-content english-prayer" id="english-content" style="display: none;">
-                        <div class="english-text" id="englishPrayer">
-                            <!-- English translation will be inserted here by JavaScript -->
-                        </div>
-                    </div>
+            <!-- Prayer Toggle Buttons -->
+            <div class="prayer-controls">
+                <div class="toggle-container">
+                    <button class="toggle-button active" data-lang="hebrew">עברית (Hebrew)</button>
+                    <button class="toggle-button" data-lang="transliteration">Transliteration</button>
+                    <button class="toggle-button" data-lang="english">English</button>
                 </div>
             </div>
 
-            <div class="ritual-completion">
-                <h2>Complete Your Kapparot</h2>
-                <p>After reciting the prayer three times while circling the money over your head, click the button below to process your charitable donation and complete the ritual.</p>
-                
-                <div class="completion-actions">
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="prayerCompleted">
-                        <span class="checkmark"></span>
-                        I have completed reciting the prayer three times
-                    </label>
-                    
-                    <button id="completeDonation" class="submit-btn" disabled>Complete Kapparot</button>
+            <!-- Prayer Content -->
+            <div class="prayer-container">
+                <!-- Hebrew Prayer -->
+                <div class="prayer-text hebrew-prayer active" id="hebrew-prayer">
+                    <p class="prayer-content hebrew-text"></p>
+                </div>
+
+                <!-- Transliteration -->
+                <div class="prayer-text transliteration-prayer" id="transliteration-prayer">
+                    <p class="prayer-content transliteration-text"></p>
+                </div>
+
+                <!-- English Prayer -->
+                <div class="prayer-text english-prayer" id="english-prayer">
+                    <p class="prayer-content english-text"></p>
                 </div>
             </div>
 
-            <div class="additional-info">
-                <h3>About Your Donation</h3>
-                <p>Your donation fulfills the modern interpretation of Kapparot, where monetary charity replaces the traditional animal offering. The funds will be distributed to help those in need, embodying the true spirit of tzedakah (charitable giving) that is central to this ritual.</p>
+            <!-- Next Steps -->
+            <div class="completion-section">
+                <h3>What would you like to do next?</h3>
+                <p>After reciting the prayer three times, choose your next step:</p>
+
+                <div class="action-buttons" id="actionButtons">
+                    <button class="action-btn secondary-btn" id="performAnother">
+                        🙏 Perform Another Kapparot
+                    </button>
+                    <button class="action-btn primary-btn" id="proceedToDonate">
+                        💰 Donate (Total: $<span id="totalAmount">0</span>)
+                    </button>
+                </div>
             </div>
         </main>
 
